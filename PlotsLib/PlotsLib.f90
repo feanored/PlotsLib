@@ -38,7 +38,8 @@ module PlotsLib
       if (present(filename) .and. len_trim(filename) > 0) then
          call metafl('PNG')
          call filmod('DELETE')
-         call setfil(trim(filename)//'.png')
+         call system('if not exist plots mkdir plots')
+         call setfil("plots/"//trim(filename)//'.png')
          call scrmod('REVERS')
       else
          call metafl('XWIN')
@@ -55,7 +56,7 @@ module PlotsLib
       if (present(lblx) .and. len_trim(lblx) > 0) then
          call name(trim(lblx), 'X')
       else
-         call name("X", 'X')
+         call name("Time [s]", 'X')
          call labdig(-1, 'X') ! sem casas decimais
       end if
       call graf(x_min, x_max, x_min, x_step, y_min, y_max, y_min, y_step)
@@ -107,7 +108,8 @@ module PlotsLib
       if (present(filename) .and. len_trim(filename) > 0) then
          call metafl('PNG')
          call filmod('DELETE')
-         call setfil(trim(filename)//'.png')
+         call system('if not exist plots mkdir plots')
+         call setfil("plots/"//trim(filename)//'.png')
          call scrmod('REVERS')
       else
          call metafl('XWIN')
@@ -124,7 +126,7 @@ module PlotsLib
       if (present(lblx) .and. len_trim(lblx) > 0) then
          call name(trim(lblx), 'X')
       else
-         call name("X", 'X')
+         call name("Time [s]", 'X')
          call labdig(-1, 'X') ! sem casas decimais
       end if
       call graf(x_min, x_max, x_min, x_step, y_min, y_max, y_min, y_step)
