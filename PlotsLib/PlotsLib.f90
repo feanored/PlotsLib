@@ -8,18 +8,19 @@
 module PlotsLib
    use dislin
    implicit none
-   save
-   logical :: exists
    contains ! FUNCTIONS/SUBROUTINES exported
 
    subroutine Scatter(N, X, Y, cor, lbly, titulo, filename, lblx)
    !DEC$ ATTRIBUTES DLLEXPORT::Scatter
       use dislin
       implicit none
-      integer, intent(in) :: N
-      real, dimension(N), intent(in) :: X, Y
-      character(*), intent(in) :: cor, lbly, titulo
-      character(*), intent(in), optional :: filename, lblx
+      integer, intent(in) :: N                          ! número de pontos
+      real, dimension(N), intent(in) :: X, Y            ! vetores de reais do gráfico (x, y=f(x))
+      character(*), intent(in) :: cor                   ! cor da função no gráfico
+      character(*), intent(in) :: lbly                  ! label da função no gráfico
+      character(*), intent(in) :: titulo                ! título superior
+      character(*), intent(in), optional :: filename    ! (Opcional) Cria imagem (filename.PNG)
+      character(*), intent(in), optional :: lblx        ! (Opcional) Label do eixo X (o padrão é "X")
       real :: x_min, x_max, x_step, y_min, y_max, y_step
       character(len=100) :: legenda
    
@@ -35,8 +36,6 @@ module PlotsLib
    
       ! Define saída em PNG, ou XWIN
       if (present(filename) .and. len_trim(filename) > 0) then
-         inquire(file="plots/", exist=exists)
-         if (.not. exists) call system('mkdir "plots"')
          call metafl('PNG')
          call filmod('DELETE')
          call setfil("plots/"//trim(filename)//'.png')
@@ -56,7 +55,7 @@ module PlotsLib
       if (present(lblx) .and. len_trim(lblx) > 0) then
          call name(trim(lblx), 'X')
       else
-         call name("Time [s]", 'X')
+         call name("X", 'X')
          call labdig(-1, 'X') ! sem casas decimais
       end if
       call graf(x_min, x_max, x_min, x_step, y_min, y_max, y_min, y_step)
@@ -81,10 +80,15 @@ module PlotsLib
     
    subroutine Scatter2(N, X, Y1, Y2, lbl1, lbl2, titulo, filename, lblx)
    !DEC$ ATTRIBUTES DLLEXPORT::Scatter2
-      integer, intent(in) :: N
-      real, dimension(N), intent(in) :: X, Y1, Y2
-      character(*), intent(in) :: lbl1, lbl2, titulo
-      character(*), intent(in), optional :: filename, lblx
+      integer, intent(in) :: N                          ! número de pontos
+      real, dimension(N), intent(in) :: X               ! vetor de reais do eixo X
+      real, dimension(N), intent(in) :: Y1              ! vetor de reais da primeira função f(x)
+      real, dimension(N), intent(in) :: Y2              ! vetor de reais da segunda função g(x)
+      character(*), intent(in) :: lbl1                  ! label da primeira função
+      character(*), intent(in) :: lbl2                  ! label da segunda função
+      character(*), intent(in) :: titulo                ! título superior
+      character(*), intent(in), optional :: filename    ! (Opcional) Cria imagem (filename.PNG)
+      character(*), intent(in), optional :: lblx        ! (Opcional) Label do eixo X (o padrão é "X")
       real :: x_min, x_max, x_step, y_min, y_max, y_step
       character(len=200) :: legenda
    
@@ -100,8 +104,6 @@ module PlotsLib
    
       ! Define saída em PNG, ou XWIN
       if (present(filename) .and. len_trim(filename) > 0) then
-         inquire(file="plots", exist=exists)
-         if (.not. exists) call system('mkdir "plots"')
          call metafl('PNG')
          call filmod('DELETE')
          call setfil("plots/"//trim(filename)//'.png')
@@ -121,7 +123,7 @@ module PlotsLib
       if (present(lblx) .and. len_trim(lblx) > 0) then
          call name(trim(lblx), 'X')
       else
-         call name("Time [s]", 'X')
+         call name("X", 'X')
          call labdig(-1, 'X') ! sem casas decimais
       end if
       call graf(x_min, x_max, x_min, x_step, y_min, y_max, y_min, y_step)

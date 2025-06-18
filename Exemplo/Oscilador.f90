@@ -37,8 +37,8 @@ program Plots
             PSI1(i) = exp(-(b**2) * (X(i)**2)) * (X(i)**2) * 2 * (b**3) / sqrt(pi)
         end do
       
-        call Scatter(n, X, PSI1, "CYAN", "|Psi1(x)|^2", "Autoestado n=1 do Oscilador Harmonico", "", "X")
-        call Scatter2(n, X, PSI0, PSI1, "|Psi0(x)|^2", "|Psi1(x)|^2", "Autoestados do Oscilador Harmonico", "", "X")
+        call Scatter(n, X, PSI1, "CYAN", "|Psi1(x)|^2", "Autoestado n=1 do Oscilador Harmonico")
+        call Scatter2(n, X, PSI0, PSI1, "|Psi0(x)|^2", "|Psi1(x)|^2", "Autoestados do Oscilador Harmonico")
     end do
     
 end program Plots
