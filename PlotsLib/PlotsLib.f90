@@ -38,7 +38,7 @@ module PlotsLib
       if (present(filename) .and. len_trim(filename) > 0) then
          call metafl('PNG')
          call filmod('DELETE')
-         call setfil("plots/"//trim(filename)//'.png')
+         call setfil(trim(filename)//'.png')
          call scrmod('REVERS')
       else
          call metafl('XWIN')
@@ -106,7 +106,7 @@ module PlotsLib
       if (present(filename) .and. len_trim(filename) > 0) then
          call metafl('PNG')
          call filmod('DELETE')
-         call setfil("plots/"//trim(filename)//'.png')
+         call setfil(trim(filename)//'.png')
          call scrmod('REVERS')
       else
          call metafl('XWIN')
