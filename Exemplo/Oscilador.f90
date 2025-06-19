@@ -1,14 +1,12 @@
 !****************************************************************************
 !
-!  PROGRAM: Plots.f90
-!
-!  PURPOSE:  Entry point for the console application.
+!  PROGRAM: Oscilador.f90
 !
 !  AUTHOR: Eduardo Galvani Massino - eduardo.massino@usp.br
 !
 !****************************************************************************
 program Plots
-    use PlotsLib
+    use PlotsLib, only : Scatter, Scatter2
     implicit none
     integer, parameter :: n = 1000000
     real, allocatable :: X(:), PSI0(:), PSI1(:)
