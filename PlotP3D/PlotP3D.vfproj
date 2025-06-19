@@ -35,7 +35,7 @@
 			<Tool Name="VFCustomBuildTool"/>
 			<Tool Name="VFPreLinkEventTool"/>
 			<Tool Name="VFPreBuildEventTool"/>
-			<Tool Name="VFPostBuildEventTool"/>
+			<Tool Name="VFPostBuildEventTool" CommandLine="copy /Y &quot;$(TargetDir)\PlotP3D.exe&quot; &quot;E:\TPNBin&quot;"/>
 			<Tool Name="VFManifestTool" SuppressStartupBanner="true"/>
 		</Configuration>
 		<Configuration Name="Release|x64" UseCompiler="ifxCompiler" OutputDirectory="..\bin">
@@ -46,7 +46,7 @@
 			<Tool Name="VFCustomBuildTool"/>
 			<Tool Name="VFPreLinkEventTool"/>
 			<Tool Name="VFPreBuildEventTool"/>
-			<Tool Name="VFPostBuildEventTool"/>
+			<Tool Name="VFPostBuildEventTool" CommandLine="copy /Y &quot;$(TargetDir)\PlotP3D.exe&quot; &quot;E:\TPNBin&quot;"/>
 			<Tool Name="VFManifestTool" SuppressStartupBanner="true"/>
 		</Configuration>
 	</Configurations>
