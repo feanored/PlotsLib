@@ -11,6 +11,9 @@ Project("{6989167D-11E4-40FE-8C1A-2192A86A7E90}") = "Exemplo", "Exemplo\Exemplo.
 	EndProjectSection
 EndProject
 Project("{6989167D-11E4-40FE-8C1A-2192A86A7E90}") = "PlotP3D", "PlotP3D\PlotP3D.vfproj", "{4739FFA7-1154-41E5-9CCB-B4068B2B4C51}"
+	ProjectSection(ProjectDependencies) = postProject
+		{AA81BC73-4FE0-4DDD-944D-A54204715206} = {AA81BC73-4FE0-4DDD-944D-A54204715206}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
