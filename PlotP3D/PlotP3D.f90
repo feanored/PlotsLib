@@ -172,6 +172,7 @@ program PlotP3D
       end do
       close(102)
       
+      ! Gráficos comparativos
       call Scatter2(N, Time, PtfmSurge(:,2),PtfmSurge(:,1),"Fast", "ElastoDyn+File", "PtfmSurge [m]", "File-PtfmSurge")
       call Scatter2(N, Time, PtfmSway(:,2), PtfmSway(:,1), "Fast", "ElastoDyn+File", "PtfmSway [m]", "File-PtfmSway")
       call Scatter2(N, Time, PtfmHeave(:,2),PtfmHeave(:,1),"Fast", "ElastoDyn+File", "PtfmHeave [m]", "File-PtfmHeave")
@@ -184,15 +185,15 @@ program PlotP3D
       call Scatter2(N, Time, TwrBsMxt(:,2), TwrBsMxt(:,1), "Fast", "ElastoDyn+File", "TowerBsMx [kN m]", "File-TwrBsMx")
       call Scatter2(N, Time, TwrBsMyt(:,2), TwrBsMyt(:,1), "Fast", "ElastoDyn+File", "TowerBsMy [kN m]", "File-TwrBsMy")
       call Scatter2(N, Time, TwrBsMzt(:,2), TwrBsMzt(:,1), "Fast", "ElastoDyn+File", "TowerBsMz [kN m]", "File-TwrBsMz")
-         
+      !call Scatter2(N, Time, TwrBsMzt(:,2), TwrBsMzt(:,1), "Fast", "ElastoDyn+File", "TowerBsMz [kN m]")
+      
+      ! Gráficos das diferenças
       call Scatter(N, Time, TwrBsFxt(:,1) - TwrBsFxt(:,2), "RED", "File - Fast", "TowerBsFx [kN]", "Diff-TowerBsFx")
       call Scatter(N, Time, TwrBsFyt(:,1) - TwrBsFyt(:,2), "RED", "File - Fast", "TowerBsFy [kN]", "Diff-TowerBsFy")
       call Scatter(N, Time, TwrBsFzt(:,1) - TwrBsFzt(:,2), "RED", "File - Fast", "TowerBsFz [kN]", "Diff-TowerBsFz")
       call Scatter(N, Time, TwrBsMxt(:,1) - TwrBsMxt(:,2), "RED", "File - Fast", "TowerBsMx [kN m]", "Diff-TowerBsMx")
       call Scatter(N, Time, TwrBsMyt(:,1) - TwrBsMyt(:,2), "RED", "File - Fast", "TowerBsMy [kN m]", "Diff-TowerBsMy")
       call Scatter(N, Time, TwrBsMzt(:,1) - TwrBsMzt(:,2), "RED", "File - Fast", "TowerBsMz [kN m]", "Diff-TowerBsMz")
-      
-      call Scatter2(N, Time, TwrBsMzt(:,2), TwrBsMzt(:,1), "Fast", "ElastoDyn+File", "TowerBsMz [kN m]")
       
    end subroutine ComparaComArquivo
    
@@ -229,20 +230,20 @@ program PlotP3D
       end do
       close(101)
       
-      call Scatter(N, Time, PtfmSurge(:,1),"RED", "Dynafast", "PtfmSurge [m]", "Dynafast-PtfmSurge")
-      call Scatter(N, Time, PtfmSway(:,1), "RED", "Dynafast", "PtfmSway [m]", "Dynafast-PtfmSway")
-      call Scatter(N, Time, PtfmHeave(:,1),"RED", "Dynafast", "PtfmHeave [m]", "Dynafast-PtfmHeave")
-      call Scatter(N, Time, PtfmRoll(:,1), "RED", "Dynafast", "PtfmRoll [deg]", "Dynafast-PtfmRoll")
-      call Scatter(N, Time, PtfmPitch(:,1),"RED", "Dynafast", "PtfmPitch [deg]", "Dynafast-PtfmPitch")
-      call Scatter(N, Time, PtfmYaw(:,1),  "RED", "Dynafast", "PtfmYaw [deg]", "Dynafast-PtfmYaw")
-      call Scatter(N, Time, TwrBsFxt(:,1), "RED", "Dynafast", "TowerBsFx [kN]", "Dynafast-TowerBsFx")
-      call Scatter(N, Time, TwrBsFyt(:,1), "RED", "Dynafast", "TowerBsFy [kN]", "Dynafast-TowerBsFy")
-      call Scatter(N, Time, TwrBsFzt(:,1), "RED", "Dynafast", "TowerBsFz [kN]", "Dynafast-TowerBsFz")
-      call Scatter(N, Time, TwrBsMxt(:,1), "RED", "Dynafast", "TowerBsMx [kN m]", "Dynafast-TowerBsMx")
-      call Scatter(N, Time, TwrBsMyt(:,1), "RED", "Dynafast", "TowerBsMy [kN m]", "Dynafast-TowerBsMy")
-      call Scatter(N, Time, TwrBsMzt(:,1), "RED", "Dynafast", "TowerBsMz [kN m]", "Dynafast-TowerBsMz")
-      
-      if (Argc == 4) then
+      if (Argc == 3) then
+         call Scatter(N, Time, PtfmSurge(:,1),"RED", "Dynafast", "PtfmSurge [m]", "Dynafast-PtfmSurge")
+         call Scatter(N, Time, PtfmSway(:,1), "RED", "Dynafast", "PtfmSway [m]", "Dynafast-PtfmSway")
+         call Scatter(N, Time, PtfmHeave(:,1),"RED", "Dynafast", "PtfmHeave [m]", "Dynafast-PtfmHeave")
+         call Scatter(N, Time, PtfmRoll(:,1), "RED", "Dynafast", "PtfmRoll [deg]", "Dynafast-PtfmRoll")
+         call Scatter(N, Time, PtfmPitch(:,1),"RED", "Dynafast", "PtfmPitch [deg]", "Dynafast-PtfmPitch")
+         call Scatter(N, Time, PtfmYaw(:,1),  "RED", "Dynafast", "PtfmYaw [deg]", "Dynafast-PtfmYaw")
+         call Scatter(N, Time, TwrBsFxt(:,1), "RED", "Dynafast", "TowerBsFx [kN]", "Dynafast-TowerBsFx")
+         call Scatter(N, Time, TwrBsFyt(:,1), "RED", "Dynafast", "TowerBsFy [kN]", "Dynafast-TowerBsFy")
+         call Scatter(N, Time, TwrBsFzt(:,1), "RED", "Dynafast", "TowerBsFz [kN]", "Dynafast-TowerBsFz")
+         call Scatter(N, Time, TwrBsMxt(:,1), "RED", "Dynafast", "TowerBsMx [kN m]", "Dynafast-TowerBsMx")
+         call Scatter(N, Time, TwrBsMyt(:,1), "RED", "Dynafast", "TowerBsMy [kN m]", "Dynafast-TowerBsMy")
+         call Scatter(N, Time, TwrBsMzt(:,1), "RED", "Dynafast", "TowerBsMz [kN m]", "Dynafast-TowerBsMz")
+      else
          open(unit=102, file=File2, status='old', action='read')
          do i = 1, 8  ! ignora as linhas de cabeçalho
             read(102, *)
@@ -255,6 +256,7 @@ program PlotP3D
          end do
          close(102)
          
+         ! Gráficos comparativos
          call Scatter2(N, Time, PtfmSurge(:,2), PtfmSurge(:,1), "Fast", "Dynafast", "PtfmSurge [m]", "Compare-PtfmSurge")
          call Scatter2(N, Time, PtfmSway(:,2), PtfmSway(:,1), "Fast", "Dynafast", "PtfmSway [m]", "Compare-PtfmSway")
          call Scatter2(N, Time, PtfmHeave(:,2), PtfmHeave(:,1), "Fast", "Dynafast", "PtfmHeave [m]", "Compare-PtfmHeave")
@@ -267,7 +269,20 @@ program PlotP3D
          call Scatter2(N, Time, TwrBsMxt(:,2), TwrBsMxt(:,1), "Fast", "Dynafast", "TowerBsMx [kN m]", "Compare-TwrBsMx")
          call Scatter2(N, Time, TwrBsMyt(:,2), TwrBsMyt(:,1), "Fast", "Dynafast", "TowerBsMy [kN m]", "Compare-TwrBsMy")
          call Scatter2(N, Time, TwrBsMzt(:,2), TwrBsMzt(:,1), "Fast", "Dynafast", "TowerBsMz [kN m]", "Compare-TwrBsMz")
-         call Scatter2(N, Time, TwrBsFzt(:,2), TwrBsFzt(:,1), "Fast", "Dynafast", "TowerBsFz [kN]")
+         
+         ! Gráficos das diferenças
+         call Scatter(N, Time, PtfmSurge(:,1) - PtfmSurge(:,2), "RED", "Dynafast - Fast", "PtfmSurge [kN]", "DeltaPos-PtfmSurge")
+         call Scatter(N, Time, PtfmSway(:,1) - PtfmSway(:,2), "RED", "Dynafast - Fast", "PtfmSway [kN]", "DeltaPos-PtfmSway")
+         call Scatter(N, Time, PtfmHeave(:,1) - PtfmHeave(:,2), "RED", "Dynafast - Fast", "PtfmHeave [kN]", "DeltaPos-PtfmHeave")
+         call Scatter(N, Time, PtfmRoll(:,1) - PtfmRoll(:,2), "RED", "Dynafast - Fast", "PtfmRoll [kN m]", "DeltaPos-PtfmRoll")
+         call Scatter(N, Time, PtfmPitch(:,1) - PtfmPitch(:,2), "RED", "Dynafast - Fast", "PtfmPitch [kN m]", "DeltaPos-PtfmPitch")
+         call Scatter(N, Time, PtfmYaw(:,1) - PtfmYaw(:,2), "RED", "Dynafast - Fast", "PtfmYaw [kN m]", "DeltaPos-PtfmYaw")
+         call Scatter(N, Time, TwrBsFxt(:,1) - TwrBsFxt(:,2), "RED", "Dynafast - Fast", "TowerBsFx [kN]", "DeltaFor-TowerBsFx")
+         call Scatter(N, Time, TwrBsFyt(:,1) - TwrBsFyt(:,2), "RED", "Dynafast - Fast", "TowerBsFy [kN]", "DeltaFor-TowerBsFy")
+         call Scatter(N, Time, TwrBsFzt(:,1) - TwrBsFzt(:,2), "RED", "Dynafast - Fast", "TowerBsFz [kN]", "DeltaFor-TowerBsFz")
+         call Scatter(N, Time, TwrBsMxt(:,1) - TwrBsMxt(:,2), "RED", "Dynafast - Fast", "TowerBsMx [kN m]", "DeltaFor-TowerBsMx")
+         call Scatter(N, Time, TwrBsMyt(:,1) - TwrBsMyt(:,2), "RED", "Dynafast - Fast", "TowerBsMy [kN m]", "DeltaFor-TowerBsMy")
+         call Scatter(N, Time, TwrBsMzt(:,1) - TwrBsMzt(:,2), "RED", "Dynafast - Fast", "TowerBsMz [kN m]", "DeltaFor-TowerBsMz")         
       end if
       
    end subroutine ComparaAcoplados
