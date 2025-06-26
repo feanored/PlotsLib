@@ -31,8 +31,8 @@ module PlotsLib
       y_min = minval(Y)
       y_max = maxval(Y)
       y_step = (y_max - y_min) / 5
-      y_max = y_max + y_step
-      y_min = y_min - y_step
+      y_max = y_max + y_step / 2
+      y_min = y_min - y_step / 2
    
       ! Define saída em PNG, ou XWIN
       if (present(filename) .and. len_trim(filename) > 0) then
@@ -69,6 +69,7 @@ module PlotsLib
       call title()
       call xaxgit()
       call legini(legenda, 1, 100)
+      call legbgd(0)
       call legtit("")
       call leglin(legenda, trim(lbly), 1)
       call legend(legenda, 7)
@@ -99,8 +100,8 @@ module PlotsLib
       y_min = min(minval(Y1), minval(Y2))
       y_max = max(maxval(Y1), maxval(Y2))
       y_step = (y_max - y_min) / 5
-      y_max = y_max + y_step
-      y_min = y_min - y_step
+      y_max = y_max + y_step / 2
+      y_min = y_min - y_step / 2
    
       ! Define saída em PNG, ou XWIN
       if (present(filename) .and. len_trim(filename) > 0) then
@@ -141,6 +142,7 @@ module PlotsLib
       call title()
       call xaxgit()
       call legini(legenda, 2, 100)
+      call legbgd(0)
       call legtit("")
       call leglin(legenda, trim(lbl1), 1)
       call leglin(legenda, trim(lbl2), 2)
