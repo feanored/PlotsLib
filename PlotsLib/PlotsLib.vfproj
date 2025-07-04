@@ -46,7 +46,7 @@
 			<Tool Name="VFCustomBuildTool"/>
 			<Tool Name="VFPreLinkEventTool"/>
 			<Tool Name="VFPreBuildEventTool"/>
-			<Tool Name="VFPostBuildEventTool" CommandLine="copy /Y &quot;$(IntDir)\*.mod&quot; &quot;..\lib&quot;&#xA;copy /Y &quot;..\lib\*.dll&quot; &quot;..\bin&quot;&#xA;copy /Y &quot;..\lib\*.dll&quot; &quot;E:\TPNBin&quot;"/>
+			<Tool Name="VFPostBuildEventTool" CommandLine="copy /Y &quot;$(IntDir)\*.mod&quot; &quot;..\lib&quot;&#xA;copy /Y &quot;..\lib\*.dll&quot; &quot;..\bin&quot;"/>
 			<Tool Name="VFManifestTool" SuppressStartupBanner="true"/>
 		</Configuration>
 	</Configurations>
@@ -54,7 +54,8 @@
 		<Filter Name="Header Files" Filter="fi;fd;h;inc"/>
 		<Filter Name="Resource Files" Filter="rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe"/>
 		<Filter Name="Source Files" Filter="f90;for;f;fpp;ftn;def;odl;idl">
-			<File RelativePath=".\PlotsLib.f90"/>
+			<File RelativePath=".\PlotsLib.f90">
+			</File>
 		</Filter>
 	</Files>
 	<Globals/>
