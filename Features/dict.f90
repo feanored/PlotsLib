@@ -1,11 +1,11 @@
-﻿module mod_dict
+﻿module DictModule
    implicit none
    private
    public :: dict_type, dict_init, dict_add, dict_get, dict_keys, dict_sort, dict_print
-   integer, parameter :: max_dict_size = 100000
+   integer, parameter :: max_dict_size = 50000
 
    type :: par
-      character(len=32) :: chave
+      character(len=300) :: chave
       real, allocatable :: valor(:,:)
    end type par
 
@@ -25,10 +25,12 @@ contains
       end do
    end subroutine dict_init
     
-   subroutine dict_add(d, chave, valor)
+   subroutine dict_add(d, chave, m, valor, status)
       type(dict_type), intent(inout) :: d
+      integer, intent(in) :: m
       character(len=*), intent(in) :: chave
-      real, intent(in) :: valor(2)
+      integer, intent(in) :: valor(m)
+      logical, intent(out) :: status
       integer :: i, n
 
       ! Verifica se a chave já existe
@@ -41,33 +43,36 @@ contains
             end if
             d%pares(i)%valor(n, :) = valor
             return
-        end if
+         end if
       end do
 
       ! Se a chave não existe, cria com um único valor
       if (d%n < max_dict_size) then
          d%n = d%n + 1
          d%pares(d%n)%chave = chave
-         allocate(d%pares(d%n)%valor(max_dict_size, 2))
-         d%pares(d%n)%valor = 0.0
+         allocate(d%pares(d%n)%valor(max_dict_size, m))
+         d%pares(d%n)%valor = 0
          d%pares(d%n)%valor(1, :) = valor
+         status = .true.
       else
          print *, "Erro: dicionário cheio!"
+         status = .false.
       end if
    end subroutine dict_add
 
-   subroutine dict_get(d, chave, vetor)
+   subroutine dict_get(d, chave, m, vetor)
       type(dict_type), intent(in) :: d
       character(len=*), intent(in) :: chave
-      real, allocatable, intent(out) :: vetor(:,:)
+      integer, intent(in) :: m
+      integer, allocatable, intent(out) :: vetor(:,:)
       logical :: encontrado
       integer :: i, n
 
       encontrado = .false.
       do i = 1, d%n
          if (trim(d%pares(i)%chave) == trim(chave)) then
-               n = count(d%pares(i)%valor(:,1) /= 0.0)
-               allocate(vetor(n, 2))
+               n = count(d%pares(i)%valor(:,1) /= 0)
+               allocate(vetor(n, m))
                vetor = d%pares(i)%valor(1:n, :)
                encontrado = .true.
                return
@@ -81,7 +86,7 @@ contains
    
    subroutine dict_keys(d, chaves, n_chaves)
       type(dict_type), intent(in) :: d
-      character(len=32), allocatable, intent(out) :: chaves(:)
+      character(len=300), allocatable, intent(out) :: chaves(:)
       integer, intent(out) :: n_chaves
       integer :: i
 
@@ -93,12 +98,13 @@ contains
       end do
    end subroutine dict_keys
    
-   subroutine dict_sort(d, chave)
+   subroutine dict_sort(d, chave, m)
       type(dict_type), intent(inout) :: d
       character(len=*), intent(in) :: chave
+      integer, intent(in) :: m
       integer :: i, j, k, n
       integer, allocatable :: idx(:)
-      real, allocatable :: temp(:,:)
+      integer, allocatable :: temp(:,:)
 
       do i = 1, d%n
          if (trim(d%pares(i)%chave) == trim(chave)) then
@@ -107,7 +113,7 @@ contains
             if (n <= 1) return  ! nada a ordenar
 
             allocate(idx(n))
-            allocate(temp(n, 2))
+            allocate(temp(n, m))
 
             ! Inicializa os índices
             do j = 1, n
@@ -162,4 +168,27 @@ contains
       end do
    end subroutine dict_print
 
-end module mod_dict
+end module DictModule
+
+! Como usar:
+
+! Cria dicionário para cada série
+!call dict_init(d)
+!call dict_add(d, trim(home)//" x "//trim(away), 3, [date, score_home, score_away], status)
+!if (status == .false.) exit
+
+! Ordena as séries por date crescente
+!call dict_keys(d, chaves, n)
+!write(*,*) "Jogos únicos encontrados: ", n
+!write(*,*) "Escrevendo arquivo das séries de jogos..."
+!open(unit=102, file="soccer_series.csv", status="replace", action="write")
+!write(102, '(A)') "game,date,score_final_home,score_final_away"
+!do i=1, n
+!   call dict_sort(d, chaves(i), 3)
+!   call dict_get(d, chaves(i), 3, scores)
+!   do j=1, size(scores(:,1))
+!      write(102, '(A,",",I0,",",I0,",",I0)') trim(chaves(i)), scores(j,1), scores(j,2), scores(j,3)
+!   end do
+!end do
+!close(102)
+!write(*,*) "-> concluído!", char(10)
