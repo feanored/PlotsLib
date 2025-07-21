@@ -22,8 +22,8 @@ program PlotP3D
    
    call get_command_argument(1, Argv)
    read(Argv, *) Modo
-   if (Modo < 1 .or. Modo > 4) then
-      write(*,*) "Modo inválido! O modo deve ser 1, 2, 3 ou 4."
+   if (Modo < 1 .or. Modo > 5) then
+      write(*,*) "Modo inválido! O modo deve ser 1, 2, 3, 4 ou 5."
       call PrintHelp()
    end if
    
@@ -41,7 +41,7 @@ program PlotP3D
       write(*,*) "O arquivo 1 é obrigatório, e o caminho dele informado não existe!"
       call PrintHelp()
    end if
-   if (Argc == 4 .or. Modo == 2) then
+   if (Argc == 4 .or. Modo == 2 .or. Modo == 5) then
       call get_command_argument(4, File2)
       inquire(file=File2, exist=exists)
       if (.not. exists) then
@@ -56,6 +56,7 @@ program PlotP3D
    if (Modo == 2) call ComparaComArquivo()
    if (Modo == 3) call ComparaAcoplados()
    if (Modo == 4) call PlotOpenfast()
+   if (Modo == 5) call ComparaTPNBins()
    
    contains
    
@@ -69,6 +70,7 @@ program PlotP3D
       write(*,*) "    modo == 3 -> Plota movimentos e forças com movimentos impostos pelo"
       write(*,*) "                 Dynafast [comparando com Openfast puro]."
       write(*,*) "    modo == 4 -> Plota movimentos e forças do Openfast puro."
+      write(*,*) "    modo == 5 -> Compara movimentos de duas versões do TPNBin."
       read (*,*)
       call exit(1)
    end subroutine PrintHelp
@@ -188,6 +190,7 @@ program PlotP3D
       !call Scatter2(N, Time, TwrBsMzt(:,2), TwrBsMzt(:,1), "Fast", "ElastoDyn+File", "TowerBsMz [kN m]")
       
       ! Gráficos das diferenças
+      return ! desativados
       call Scatter(N, Time, TwrBsFxt(:,1) - TwrBsFxt(:,2), "RED", "File - Fast", "TowerBsFx [kN]", "Diff-TowerBsFx")
       call Scatter(N, Time, TwrBsFyt(:,1) - TwrBsFyt(:,2), "RED", "File - Fast", "TowerBsFy [kN]", "Diff-TowerBsFy")
       call Scatter(N, Time, TwrBsFzt(:,1) - TwrBsFzt(:,2), "RED", "File - Fast", "TowerBsFz [kN]", "Diff-TowerBsFz")
@@ -271,6 +274,7 @@ program PlotP3D
          call Scatter2(N, Time, TwrBsMzt(:,2), TwrBsMzt(:,1), "Fast", "Dynafast", "TowerBsMz [kN m]", "Compare-TwrBsMz")
          
          ! Gráficos das diferenças
+         return ! desativados
          call Scatter(N, Time, PtfmSurge(:,1) - PtfmSurge(:,2), "RED", "Dynafast - Fast", "PtfmSurge [kN]", "DeltaPos-PtfmSurge")
          call Scatter(N, Time, PtfmSway(:,1) - PtfmSway(:,2), "RED", "Dynafast - Fast", "PtfmSway [kN]", "DeltaPos-PtfmSway")
          call Scatter(N, Time, PtfmHeave(:,1) - PtfmHeave(:,2), "RED", "Dynafast - Fast", "PtfmHeave [kN]", "DeltaPos-PtfmHeave")
@@ -334,5 +338,49 @@ program PlotP3D
       call Scatter(N, Time, TwrBsMzt(:), "BLUE", "Fast", "TowerBsMz [kN m]", "Fast-TowerBsMz")
    
    end subroutine PlotOpenfast
+   
+   subroutine ComparaTPNBins()
+      implicit none
+      real, allocatable :: Time(:), &
+         PtfmSurge(:,:), PtfmSway(:,:), PtfmHeave(:,:), &
+         PtfmRoll(:,:), PtfmPitch(:,:), PtfmYaw(:,:)
+      integer :: i
+   
+      allocate(Time(N))
+      allocate(PtfmSurge(N, 2))
+      allocate(PtfmSway(N, 2))
+      allocate(PtfmHeave(N, 2))
+      allocate(PtfmRoll(N, 2))
+      allocate(PtfmPitch(N, 2))
+      allocate(PtfmYaw(N, 2))
+   
+      open(unit=101, file=File1, status='old', action='read')
+      ! ignora as linhas de cabeçalho
+      read(101, *)
+      read(101, *)
+      do i = 1, N
+         read(101, *) Time(i), &
+            PtfmSurge(i,1), PtfmSway(i,1), PtfmHeave(i,1), PtfmRoll(i,1), PtfmPitch(i,1), PtfmYaw(i,1)
+      end do
+      close(101)
+   
+      open(unit=102, file=File2, status='old', action='read')
+      ! ignora as linhas de cabeçalho
+      read(102, *)
+      read(102, *)
+      do i = 1, N
+         read(102, *) Time(i), &
+            PtfmSurge(i,2), PtfmSway(i,2), PtfmHeave(i,2), PtfmRoll(i,2), PtfmPitch(i,2), PtfmYaw(i,2)
+      end do
+      close(102)
+      
+      call Scatter2(N, Time, PtfmSurge(:,1), PtfmSurge(:,2), "TPNBin-Ref", "TPNBin-Test", "PtfmSurge [m]", "TPNBin-PtfmSurge")
+      call Scatter2(N, Time, PtfmSway(:,1), PtfmSway(:,2), "TPNBin-Ref", "TPNBin-Test", "PtfmSway [m]", "TPNBin-PtfmSway")
+      call Scatter2(N, Time, PtfmHeave(:,1), PtfmHeave(:,2), "TPNBin-Ref", "TPNBin-Test", "PtfmHeave [m]", "TPNBin-PtfmHeave")
+      call Scatter2(N, Time, PtfmRoll(:,1), PtfmRoll(:,2), "TPNBin-Ref", "TPNBin-Test", "PtfmRoll [deg]", "TPNBin-PtfmRoll")
+      call Scatter2(N, Time, PtfmPitch(:,1), PtfmPitch(:,2), "TPNBin-Ref", "TPNBin-Test", "PtfmPitch [deg]", "TPNBin-PtfmPitch")
+      call Scatter2(N, Time, PtfmYaw(:,1), PtfmYaw(:,2), "TPNBin-Ref", "TPNBin-Test", "PtfmYaw [deg]", "TPNBin-PtfmYaw")
+   
+   end subroutine ComparaTPNBins
    
 end program PlotP3D
