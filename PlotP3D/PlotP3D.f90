@@ -8,15 +8,15 @@
 program PlotP3D
    use PlotsLib, only : Scatter, Scatter2
    implicit none
-   integer :: Argc, N, Modo
+   integer :: Argc, N, Modo, ContarLinhas
    character(100) :: Argv, File1, File2
    logical :: exists
    
    ! Body of PlotP3D
    call execute_command_line('chcp 65001 > nul')
    Argc = command_argument_count()
-   if (Argc < 3 .or. Argc > 4) then
-      write(*,*) "Quantidade incorreta de parâmetros, espera-se 3 ou 4!", char(10)
+   if (Argc < 2 .or. Argc > 3) then
+      write(*,*) "Quantidade incorreta de parâmetros, espera-se 2 ou 3!", char(10)
       call PrintHelp()
    end if
    
@@ -27,27 +27,22 @@ program PlotP3D
       call PrintHelp()
    end if
    
-   call get_command_argument(2, Argv)
-   read(Argv, *) N
-   if (N < 0) then
-      write(*,*) "T inválido, deve ser maior que zero!"
-      call PrintHelp()
-   end if
-   N = N * 20 !(dt = 0.05)
-   
-   call get_command_argument(3, File1)
+   call get_command_argument(2, File1)
    inquire(file=File1, exist=exists)
    if (.not. exists) then
       write(*,*) "O arquivo 1 é obrigatório, e o caminho dele informado não existe!"
       call PrintHelp()
    end if
+   N = ContarLinhas(File1)
+   
    if (Argc == 4 .or. Modo == 2 .or. Modo == 5) then
-      call get_command_argument(4, File2)
+      call get_command_argument(3, File2)
       inquire(file=File2, exist=exists)
       if (.not. exists) then
          write(*,*) "O arquivo 2 informado não existe!"
          call PrintHelp()
       end if
+      N = Min(N, ContarLinhas(File2))
    else
       File2 = ""
    end if
@@ -62,8 +57,7 @@ program PlotP3D
    
    subroutine PrintHelp()
       implicit none
-      write(*,*) "Uso:",char(10)," PlotP3D modo T File1.out [Fast_Puro.out]",char(10)
-      write(*,*) "    T         -> Tempo total da simulação"
+      write(*,*) "Uso:",char(10)," PlotP3D modo File1.out [Fast_Puro.out]",char(10)
       write(*,*) "    modo == 1 -> Plota movimentos do TPNBin [comparando com Openfast puro]."
       write(*,*) "    modo == 2 -> Plota forças do Fast com movimentos impostos por"
       write(*,*) "                 arquivo de texto comparando com Openfast puro."
@@ -81,7 +75,8 @@ program PlotP3D
          PtfmSurge(:,:), PtfmSway(:,:), PtfmHeave(:,:), &
          PtfmRoll(:,:), PtfmPitch(:,:), PtfmYaw(:,:)
       integer :: i
-   
+      
+      N = N - 2 ! ignora as linhas de cabeçalho
       allocate(Time(N))
       allocate(PtfmSurge(N, 2))
       allocate(PtfmSway(N, 2))
@@ -136,6 +131,7 @@ program PlotP3D
          TwrBsFxt(:,:), TwrBsFyt(:,:), TwrBsFzt(:,:), TwrBsMxt(:,:), TwrBsMyt(:,:), TwrBsMzt(:,:)
       integer :: i
       
+      N = N - 8 ! ignora as linhas de cabeçalho
       allocate(Time(N))
       allocate(PtfmSurge(N, 2))
       allocate(PtfmSway(N, 2))
@@ -207,6 +203,7 @@ program PlotP3D
          TwrBsFxt(:,:), TwrBsFyt(:,:), TwrBsFzt(:,:), TwrBsMxt(:,:), TwrBsMyt(:,:), TwrBsMzt(:,:)
       integer :: i
       
+      N = N - 8 ! ignora as linhas de cabeçalho
       allocate(Time(N))
       allocate(PtfmSurge(N, 2))
       allocate(PtfmSway(N, 2))
@@ -298,6 +295,7 @@ program PlotP3D
          TwrBsFxt(:), TwrBsFyt(:), TwrBsFzt(:), TwrBsMxt(:), TwrBsMyt(:), TwrBsMzt(:)
       integer :: i
       
+      N = N - 8 ! ignora as linhas de cabeçalho
       allocate(Time(N))
       allocate(PtfmSurge(N))
       allocate(PtfmSway(N))
@@ -345,7 +343,8 @@ program PlotP3D
          PtfmSurge(:,:), PtfmSway(:,:), PtfmHeave(:,:), &
          PtfmRoll(:,:), PtfmPitch(:,:), PtfmYaw(:,:)
       integer :: i
-   
+      
+      N = N - 2 ! ignora as linhas de cabeçalho
       allocate(Time(N))
       allocate(PtfmSurge(N, 2))
       allocate(PtfmSway(N, 2))
@@ -358,7 +357,7 @@ program PlotP3D
       ! ignora as linhas de cabeçalho
       read(101, *)
       read(101, *)
-      do i = 1, N
+      do i = 1, N-2
          read(101, *) Time(i), &
             PtfmSurge(i,1), PtfmSway(i,1), PtfmHeave(i,1), PtfmRoll(i,1), PtfmPitch(i,1), PtfmYaw(i,1)
       end do
@@ -368,7 +367,7 @@ program PlotP3D
       ! ignora as linhas de cabeçalho
       read(102, *)
       read(102, *)
-      do i = 1, N
+      do i = 1, N-2
          read(102, *) Time(i), &
             PtfmSurge(i,2), PtfmSway(i,2), PtfmHeave(i,2), PtfmRoll(i,2), PtfmPitch(i,2), PtfmYaw(i,2)
       end do
@@ -384,3 +383,28 @@ program PlotP3D
    end subroutine ComparaTPNBins
    
 end program PlotP3D
+
+function ContarLinhas(nome_arquivo) result(num_linhas)
+   implicit none
+   character(len=*), intent(in) :: nome_arquivo
+   integer :: num_linhas, io_status
+   character(len=100) :: linha
+
+   num_linhas = 0
+   open(unit=11, file=nome_arquivo, status='old', action='read', iostat=io_status)
+
+   ! Verifica se o arquivo foi aberto com sucesso
+   if (io_status /= 0) then
+      print *, 'Erro ao abrir o arquivo: ', trim(nome_arquivo)
+      return
+   end if
+
+   ! Lê o arquivo linha por linha
+   do
+      read(11, '(A)', iostat=io_status) linha
+      if (io_status /= 0) exit ! Sai do loop ao atingir o fim do arquivo ou erro
+      num_linhas = num_linhas + 1
+   end do
+
+   close(11)
+end function ContarLinhas

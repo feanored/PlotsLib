@@ -63,6 +63,7 @@ module PlotsLib
 
       ! Plotando pontos
       call color(trim(cor))
+      call thkcrv(3)
       call curve(X, Y, N)
 
       ! Título e legenda
@@ -133,10 +134,12 @@ module PlotsLib
 
       ! Primeira função
       call color("BLUE")
+      call thkcrv(12)
       call curve(X, Y1, N)
         
       ! Segunda função
       call color("RED")
+      call thkcrv(3)
       call curve(X, Y2, N)
         
       ! Título e legenda
