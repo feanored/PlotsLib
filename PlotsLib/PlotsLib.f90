@@ -134,12 +134,12 @@ module PlotsLib
 
       ! Primeira função
       call color("BLUE")
-      call thkcrv(12)
+      call thkcrv(4)
       call curve(X, Y1, N)
         
       ! Segunda função
       call color("RED")
-      call thkcrv(3)
+      call thkcrv(4)
       call curve(X, Y2, N)
         
       ! Título e legenda
