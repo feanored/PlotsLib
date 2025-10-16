@@ -52,13 +52,14 @@ module PlotsLib
       call height(40)
       call titlin(trim(titulo), 2)
       call labdig(2, 'X') ! 2 casas decimais
-      call labdig(-2, 'Y') ! casas automáticas
+      call labdig(3, 'Y')
       if (present(lblx) .and. len_trim(lblx) > 0) then
          call name(trim(lblx), 'X')
       else
          call name("Time [s]", 'X')
          call labdig(-1, 'X') ! sem casas decimais
       end if
+      call labels('FEXP', 'Y') ! notação científica
       call graf(x_min, x_max, x_min, x_step, y_min, y_max, y_min, y_step)
 
       ! Plotando pontos
@@ -122,14 +123,15 @@ module PlotsLib
       ! Configurando eixos
       call height(40)
       call titlin(trim(titulo), 2)
-      call labdig(2, 'X') ! 2 casas decimais
-      call labdig(-2, 'Y') ! casas automáticas
+      call labdig(2, 'X') ! casas automáticas -> -2
+      call labdig(3, 'Y')
       if (present(lblx) .and. len_trim(lblx) > 0) then
          call name(trim(lblx), 'X')
       else
          call name("Time [s]", 'X')
          call labdig(-1, 'X') ! sem casas decimais
       end if
+      call labels('FEXP', 'Y') ! notação científica
       call graf(x_min, x_max, x_min, x_step, y_min, y_max, y_min, y_step)
 
       ! Primeira função

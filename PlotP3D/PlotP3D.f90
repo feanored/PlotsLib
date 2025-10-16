@@ -88,7 +88,7 @@ program PlotP3D
       call exit(1)
    end subroutine PrintHelp
    
-   subroutine ComparaDesacoplados()
+   subroutine ComparaDesacoplados() ! Modo 1
       implicit none
       real, allocatable :: Time(:), &
          PtfmSurge(:,:), PtfmSway(:,:), PtfmHeave(:,:), &
@@ -150,17 +150,17 @@ program PlotP3D
          end do
          close(102)
       
-         call Scatter2(M, Time, PtfmSurge(:,2), PtfmSurge(:,1), "Fast", "Dyna", "PtfmSurge [m]", "Ambos-PtfmSurge")
-         call Scatter2(M, Time, PtfmSway(:,2), PtfmSway(:,1), "Fast", "Dyna", "PtfmSway [m]", "Ambos-PtfmSway")
-         call Scatter2(M, Time, PtfmHeave(:,2), PtfmHeave(:,1), "Fast", "Dyna", "PtfmHeave [m]", "Ambos-PtfmHeave")
-         call Scatter2(M, Time, PtfmRoll(:,2), PtfmRoll(:,1), "Fast", "Dyna", "PtfmRoll [deg]", "Ambos-PtfmRoll")
-         call Scatter2(M, Time, PtfmPitch(:,2), PtfmPitch(:,1), "Fast", "Dyna", "PtfmPitch [deg]", "Ambos-PtfmPitch")
-         call Scatter2(M, Time, PtfmYaw(:,2), PtfmYaw(:,1), "Fast", "Dyna", "PtfmYaw [deg]", "Ambos-PtfmYaw")
+         call Scatter2(M, Time, PtfmSurge(:,2), PtfmSurge(:,1), "Fast", "Dyna", "PtfmSurge [m]", "Ambos-1PtfmSurge")
+         call Scatter2(M, Time, PtfmSway(:,2), PtfmSway(:,1), "Fast", "Dyna", "PtfmSway [m]", "Ambos-2PtfmSway")
+         call Scatter2(M, Time, PtfmHeave(:,2), PtfmHeave(:,1), "Fast", "Dyna", "PtfmHeave [m]", "Ambos-3PtfmHeave")
+         call Scatter2(M, Time, PtfmRoll(:,2), PtfmRoll(:,1), "Fast", "Dyna", "PtfmRoll [deg]", "Ambos-4PtfmRoll")
+         call Scatter2(M, Time, PtfmPitch(:,2), PtfmPitch(:,1), "Fast", "Dyna", "PtfmPitch [deg]", "Ambos-5PtfmPitch")
+         call Scatter2(M, Time, PtfmYaw(:,2), PtfmYaw(:,1), "Fast", "Dyna", "PtfmYaw [deg]", "Ambos-6PtfmYaw")
       end if
    
    end subroutine ComparaDesacoplados
    
-   subroutine ComparaComArquivo()
+   subroutine ComparaComArquivo() ! Modo 2
       implicit none
       real, allocatable :: Time(:), &
          PtfmSurge(:,:), PtfmSway(:,:), PtfmHeave(:,:), PtfmRoll(:,:), PtfmPitch(:,:), PtfmYaw(:,:), &
@@ -249,12 +249,13 @@ program PlotP3D
       
    end subroutine ComparaComArquivo
    
-   subroutine ComparaAcoplados()
+   subroutine ComparaAcoplados() ! Modo 3
       implicit none
       real, allocatable :: Time(:), &
          PtfmSurge(:,:), PtfmSway(:,:), PtfmHeave(:,:), PtfmRoll(:,:), PtfmPitch(:,:), PtfmYaw(:,:), &
          TwrBsFxt(:,:), TwrBsFyt(:,:), TwrBsFzt(:,:), TwrBsMxt(:,:), TwrBsMyt(:,:), TwrBsMzt(:,:)
       integer :: i, j, M
+      character(100) :: lbl1, lbl2, outPrefix
       
       N = N - 8 ! ignora as linhas de cabeçalho
       if (P == 1) then
@@ -327,18 +328,21 @@ program PlotP3D
          close(102)
          
          ! Gráficos comparativos
-         call Scatter2(M, Time, PtfmSurge(:,2), PtfmSurge(:,1), "Fast", "Dynafast", "PtfmSurge [m]", "Compare-PtfmSurge")
-         call Scatter2(M, Time, PtfmSway(:,2), PtfmSway(:,1), "Fast", "Dynafast", "PtfmSway [m]", "Compare-PtfmSway")
-         call Scatter2(M, Time, PtfmHeave(:,2), PtfmHeave(:,1), "Fast", "Dynafast", "PtfmHeave [m]", "Compare-PtfmHeave")
-         call Scatter2(M, Time, PtfmRoll(:,2), PtfmRoll(:,1), "Fast", "Dynafast", "PtfmRoll [deg]", "Compare-PtfmRoll")
-         call Scatter2(M, Time, PtfmPitch(:,2), PtfmPitch(:,1), "Fast", "Dynafast", "PtfmPitch [deg]", "Compare-PtfmPitch")
-         call Scatter2(M, Time, PtfmYaw(:,2), PtfmYaw(:,1), "Fast", "Dynafast", "PtfmYaw [deg]", "Compare-PtfmYaw")
-         call Scatter2(M, Time, TwrBsFxt(:,2), TwrBsFxt(:,1), "Fast", "Dynafast", "TowerBsFx [kN]", "Compare-TwrBsFx")
-         call Scatter2(M, Time, TwrBsFyt(:,2), TwrBsFyt(:,1), "Fast", "Dynafast", "TowerBsFy [kN]", "Compare-TwrBsFy")
-         call Scatter2(M, Time, TwrBsFzt(:,2), TwrBsFzt(:,1), "Fast", "Dynafast", "TowerBsFz [kN]", "Compare-TwrBsFz")
-         call Scatter2(M, Time, TwrBsMxt(:,2), TwrBsMxt(:,1), "Fast", "Dynafast", "TowerBsMx [kN m]", "Compare-TwrBsMx")
-         call Scatter2(M, Time, TwrBsMyt(:,2), TwrBsMyt(:,1), "Fast", "Dynafast", "TowerBsMy [kN m]", "Compare-TwrBsMy")
-         call Scatter2(M, Time, TwrBsMzt(:,2), TwrBsMzt(:,1), "Fast", "Dynafast", "TowerBsMz [kN m]", "Compare-TwrBsMz")
+         lbl1 = "Fast"
+         lbl2 = "Dynafast"
+         outPrefix = "Compare"
+         call Scatter2(M, Time, PtfmSurge(:,2), PtfmSurge(:,1), lbl1, lbl2, "PtfmSurge [m]", trim(outPrefix)//"-1PtfmSurge")
+         call Scatter2(M, Time, PtfmSway(:,2), PtfmSway(:,1), lbl1, lbl2, "PtfmSway [m]", trim(outPrefix)//"-2PtfmSway")
+         call Scatter2(M, Time, PtfmHeave(:,2), PtfmHeave(:,1), lbl1, lbl2, "PtfmHeave [m]", trim(outPrefix)//"-3PtfmHeave")
+         call Scatter2(M, Time, PtfmRoll(:,2), PtfmRoll(:,1), lbl1, lbl2, "PtfmRoll [deg]", trim(outPrefix)//"-4PtfmRoll")
+         call Scatter2(M, Time, PtfmPitch(:,2), PtfmPitch(:,1), lbl1, lbl2, "PtfmPitch [deg]", trim(outPrefix)//"-5PtfmPitch")
+         call Scatter2(M, Time, PtfmYaw(:,2), PtfmYaw(:,1), lbl1, lbl2, "PtfmYaw [deg]", trim(outPrefix)//"-6PtfmYaw")
+         call Scatter2(M, Time, TwrBsFxt(:,2), TwrBsFxt(:,1), lbl1, lbl2, "TowerBsFx [kN]", trim(outPrefix)//"-TwrBsFx")
+         call Scatter2(M, Time, TwrBsFyt(:,2), TwrBsFyt(:,1), lbl1, lbl2, "TowerBsFy [kN]", trim(outPrefix)//"-TwrBsFy")
+         call Scatter2(M, Time, TwrBsFzt(:,2), TwrBsFzt(:,1), lbl1, lbl2, "TowerBsFz [kN]", trim(outPrefix)//"-TwrBsFz")
+         call Scatter2(M, Time, TwrBsMxt(:,2), TwrBsMxt(:,1), lbl1, lbl2, "TowerBsMx [kN m]", trim(outPrefix)//"-TwrBsMx")
+         call Scatter2(M, Time, TwrBsMyt(:,2), TwrBsMyt(:,1), lbl1, lbl2, "TowerBsMy [kN m]", trim(outPrefix)//"-TwrBsMy")
+         call Scatter2(M, Time, TwrBsMzt(:,2), TwrBsMzt(:,1), lbl1, lbl2, "TowerBsMz [kN m]", trim(outPrefix)//"-TwrBsMz")
          
          ! Gráficos das diferenças
          return ! desativados
@@ -358,7 +362,7 @@ program PlotP3D
       
    end subroutine ComparaAcoplados
    
-   subroutine PlotOpenfast()
+   subroutine PlotOpenfast() ! Modo 4
       implicit none
       real, allocatable :: Time(:), &
          PtfmSurge(:), PtfmSway(:), PtfmHeave(:), PtfmRoll(:), PtfmPitch(:), PtfmYaw(:), &
@@ -418,7 +422,7 @@ program PlotP3D
    
    end subroutine PlotOpenfast
    
-   subroutine ComparaTPNBins()
+   subroutine ComparaTPNBins() ! Modo 5
       implicit none
       real, allocatable :: Time(:), &
          PtfmSurge(:,:), PtfmSway(:,:), PtfmHeave(:,:), &
