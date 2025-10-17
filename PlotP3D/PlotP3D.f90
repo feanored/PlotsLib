@@ -328,7 +328,7 @@ program PlotP3D
          close(102)
          
          ! Gráficos comparativos
-         lbl1 = "Fast"
+         lbl1 = "Fast   ."
          lbl2 = "Dynafast"
          outPrefix = "Compare"
          call Scatter2(M, Time, PtfmSurge(:,2), PtfmSurge(:,1), lbl1, lbl2, "PtfmSurge [m]", trim(outPrefix)//"-1PtfmSurge")
