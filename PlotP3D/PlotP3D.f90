@@ -126,12 +126,12 @@ program PlotP3D
       close(101)
    
       if (Argc == 3) then
-         call Scatter(M, Time, PtfmSurge(:,1), "RED", "Dyna", "PtfmSurge [m]", "Dyna-PtfmSurge")
-         call Scatter(M, Time, PtfmSway(:,1),  "RED", "Dyna", "PtfmSway [m]", "Dyna-PtfmSway")
-         call Scatter(M, Time, PtfmHeave(:,1), "RED", "Dyna", "PtfmHeave [m]", "Dyna-PtfmHeave")
-         call Scatter(M, Time, PtfmRoll(:,1),  "RED", "Dyna", "PtfmRoll [deg]", "Dyna-PtfmRoll")
-         call Scatter(M, Time, PtfmPitch(:,1), "RED", "Dyna", "PtfmPitch [deg]", "Dyna-PtfmPitch")
-         call Scatter(M, Time, PtfmYaw(:,1),   "RED", "Dyna", "PtfmYaw [deg]", "Dyna-PtfmYaw")
+         call Scatter(M, Time, PtfmSurge(:,1), "RED", "Dyna", "PtfmSurge [m]", "Dyna-1PtfmSurge")
+         call Scatter(M, Time, PtfmSway(:,1),  "RED", "Dyna", "PtfmSway [m]", "Dyna-2PtfmSway")
+         call Scatter(M, Time, PtfmHeave(:,1), "RED", "Dyna", "PtfmHeave [m]", "Dyna-3PtfmHeave")
+         call Scatter(M, Time, PtfmRoll(:,1),  "RED", "Dyna", "PtfmRoll [deg]", "Dyna-4PtfmRoll")
+         call Scatter(M, Time, PtfmPitch(:,1), "RED", "Dyna", "PtfmPitch [deg]", "Dyna-5PtfmPitch")
+         call Scatter(M, Time, PtfmYaw(:,1),   "RED", "Dyna", "PtfmYaw [deg]", "Dyna-6PtfmYaw")
       else
          open(unit=102, file=File2, status='old', action='read')
          ! ignora as linhas de cabeçalho
@@ -151,11 +151,11 @@ program PlotP3D
          close(102)
       
          call Scatter2(M, Time, PtfmSurge(:,2), PtfmSurge(:,1), "Fast", "Dyna", "PtfmSurge [m]", "Ambos-1PtfmSurge")
-         call Scatter2(M, Time, PtfmSway(:,2), PtfmSway(:,1), "Fast", "Dyna", "PtfmSway [m]", "Ambos-2PtfmSway")
+         call Scatter2(M, Time, PtfmSway(:,2), PtfmSway(:,1),   "Fast", "Dyna", "PtfmSway [m]", "Ambos-2PtfmSway")
          call Scatter2(M, Time, PtfmHeave(:,2), PtfmHeave(:,1), "Fast", "Dyna", "PtfmHeave [m]", "Ambos-3PtfmHeave")
-         call Scatter2(M, Time, PtfmRoll(:,2), PtfmRoll(:,1), "Fast", "Dyna", "PtfmRoll [deg]", "Ambos-4PtfmRoll")
+         call Scatter2(M, Time, PtfmRoll(:,2), PtfmRoll(:,1),   "Fast", "Dyna", "PtfmRoll [deg]", "Ambos-4PtfmRoll")
          call Scatter2(M, Time, PtfmPitch(:,2), PtfmPitch(:,1), "Fast", "Dyna", "PtfmPitch [deg]", "Ambos-5PtfmPitch")
-         call Scatter2(M, Time, PtfmYaw(:,2), PtfmYaw(:,1), "Fast", "Dyna", "PtfmYaw [deg]", "Ambos-6PtfmYaw")
+         call Scatter2(M, Time, PtfmYaw(:,2), PtfmYaw(:,1),     "Fast", "Dyna", "PtfmYaw [deg]", "Ambos-6PtfmYaw")
       end if
    
    end subroutine ComparaDesacoplados
@@ -225,18 +225,18 @@ program PlotP3D
       write(*,*) i, M
       
       ! Gráficos comparativos
-      call Scatter2(M, Time, PtfmSurge(:,2),PtfmSurge(:,1),"Fast", "ElastoDyn+File", "PtfmSurge [m]", "File-PtfmSurge")
-      call Scatter2(M, Time, PtfmSway(:,2), PtfmSway(:,1), "Fast", "ElastoDyn+File", "PtfmSway [m]", "File-PtfmSway")
-      call Scatter2(M, Time, PtfmHeave(:,2),PtfmHeave(:,1),"Fast", "ElastoDyn+File", "PtfmHeave [m]", "File-PtfmHeave")
-      call Scatter2(M, Time, PtfmRoll(:,2), PtfmRoll(:,1), "Fast", "ElastoDyn+File", "PtfmRoll [deg]", "File-PtfmRoll")
-      call Scatter2(M, Time, PtfmPitch(:,2),PtfmPitch(:,1),"Fast", "ElastoDyn+File", "PtfmPitch [deg]", "File-PtfmPitch")
-      call Scatter2(M, Time, PtfmYaw(:,2),  PtfmYaw(:,1),  "Fast", "ElastoDyn+File", "PtfmYaw [deg]", "File-PtfmYaw")
-      call Scatter2(M, Time, TwrBsFxt(:,2), TwrBsFxt(:,1), "Fast", "ElastoDyn+File", "TowerBsFx [kN]", "File-TwrBsFx")
-      call Scatter2(M, Time, TwrBsFyt(:,2), TwrBsFyt(:,1), "Fast", "ElastoDyn+File", "TowerBsFy [kN]", "File-TwrBsFy")
-      call Scatter2(M, Time, TwrBsFzt(:,2), TwrBsFzt(:,1), "Fast", "ElastoDyn+File", "TowerBsFz [kN]", "File-TwrBsFz")
-      call Scatter2(M, Time, TwrBsMxt(:,2), TwrBsMxt(:,1), "Fast", "ElastoDyn+File", "TowerBsMx [kN m]", "File-TwrBsMx")
-      call Scatter2(M, Time, TwrBsMyt(:,2), TwrBsMyt(:,1), "Fast", "ElastoDyn+File", "TowerBsMy [kN m]", "File-TwrBsMy")
-      call Scatter2(M, Time, TwrBsMzt(:,2), TwrBsMzt(:,1), "Fast", "ElastoDyn+File", "TowerBsMz [kN m]", "File-TwrBsMz")
+      call Scatter2(M, Time, PtfmSurge(:,2),PtfmSurge(:,1),"Fast  .", "ED+File", "PtfmSurge [m]", "File-1PtfmSurge")
+      call Scatter2(M, Time, PtfmSway(:,2), PtfmSway(:,1), "Fast  .", "ED+File", "PtfmSway [m]", "File-2PtfmSway")
+      call Scatter2(M, Time, PtfmHeave(:,2),PtfmHeave(:,1),"Fast  .", "ED+File", "PtfmHeave [m]", "File-3PtfmHeave")
+      call Scatter2(M, Time, PtfmRoll(:,2), PtfmRoll(:,1), "Fast  .", "ED+File", "PtfmRoll [deg]", "File-4PtfmRoll")
+      call Scatter2(M, Time, PtfmPitch(:,2),PtfmPitch(:,1),"Fast  .", "ED+File", "PtfmPitch [deg]", "File-5PtfmPitch")
+      call Scatter2(M, Time, PtfmYaw(:,2),  PtfmYaw(:,1),  "Fast  .", "ED+File", "PtfmYaw [deg]", "File-6PtfmYaw")
+      call Scatter2(M, Time, TwrBsFxt(:,2), TwrBsFxt(:,1), "Fast  .", "ED+File", "TowerBsFx [kN]", "File-TwrBsFx")
+      call Scatter2(M, Time, TwrBsFyt(:,2), TwrBsFyt(:,1), "Fast  .", "ED+File", "TowerBsFy [kN]", "File-TwrBsFy")
+      call Scatter2(M, Time, TwrBsFzt(:,2), TwrBsFzt(:,1), "Fast  .", "ED+File", "TowerBsFz [kN]", "File-TwrBsFz")
+      call Scatter2(M, Time, TwrBsMxt(:,2), TwrBsMxt(:,1), "Fast  .", "ED+File", "TowerBsMx [kN m]", "File-TwrBsMx")
+      call Scatter2(M, Time, TwrBsMyt(:,2), TwrBsMyt(:,1), "Fast  .", "ED+File", "TowerBsMy [kN m]", "File-TwrBsMy")
+      call Scatter2(M, Time, TwrBsMzt(:,2), TwrBsMzt(:,1), "Fast  .", "ED+File", "TowerBsMz [kN m]", "File-TwrBsMz")
       
       ! Gráficos das diferenças
       return ! desativados
@@ -296,12 +296,12 @@ program PlotP3D
       close(101)
       
       if (Argc == 3) then
-         call Scatter(M, Time, PtfmSurge(:,1),"RED", "Dynafast", "PtfmSurge [m]", "Dynafast-PtfmSurge")
-         call Scatter(M, Time, PtfmSway(:,1), "RED", "Dynafast", "PtfmSway [m]", "Dynafast-PtfmSway")
-         call Scatter(M, Time, PtfmHeave(:,1),"RED", "Dynafast", "PtfmHeave [m]", "Dynafast-PtfmHeave")
-         call Scatter(M, Time, PtfmRoll(:,1), "RED", "Dynafast", "PtfmRoll [deg]", "Dynafast-PtfmRoll")
-         call Scatter(M, Time, PtfmPitch(:,1),"RED", "Dynafast", "PtfmPitch [deg]", "Dynafast-PtfmPitch")
-         call Scatter(M, Time, PtfmYaw(:,1),  "RED", "Dynafast", "PtfmYaw [deg]", "Dynafast-PtfmYaw")
+         call Scatter(M, Time, PtfmSurge(:,1),"RED", "Dynafast", "PtfmSurge [m]", "Dynafast-1PtfmSurge")
+         call Scatter(M, Time, PtfmSway(:,1), "RED", "Dynafast", "PtfmSway [m]", "Dynafast-2PtfmSway")
+         call Scatter(M, Time, PtfmHeave(:,1),"RED", "Dynafast", "PtfmHeave [m]", "Dynafast-3PtfmHeave")
+         call Scatter(M, Time, PtfmRoll(:,1), "RED", "Dynafast", "PtfmRoll [deg]", "Dynafast-4PtfmRoll")
+         call Scatter(M, Time, PtfmPitch(:,1),"RED", "Dynafast", "PtfmPitch [deg]", "Dynafast-5PtfmPitch")
+         call Scatter(M, Time, PtfmYaw(:,1),  "RED", "Dynafast", "PtfmYaw [deg]", "Dynafast-6PtfmYaw")
          call Scatter(M, Time, TwrBsFxt(:,1), "RED", "Dynafast", "TowerBsFx [kN]", "Dynafast-TowerBsFx")
          call Scatter(M, Time, TwrBsFyt(:,1), "RED", "Dynafast", "TowerBsFy [kN]", "Dynafast-TowerBsFy")
          call Scatter(M, Time, TwrBsFzt(:,1), "RED", "Dynafast", "TowerBsFz [kN]", "Dynafast-TowerBsFz")
@@ -407,12 +407,12 @@ program PlotP3D
       end do
       close(101)
             
-      call Scatter(M, Time, PtfmSurge(:),"BLUE", "Fast", "PtfmSurge [m]", "Fast-PtfmSurge")
-      call Scatter(M, Time, PtfmSway(:), "BLUE", "Fast", "PtfmSway [m]", "Fast-PtfmSway")
-      call Scatter(M, Time, PtfmHeave(:),"BLUE", "Fast", "PtfmHeave [m]", "Fast-PtfmHeave")
-      call Scatter(M, Time, PtfmRoll(:), "BLUE", "Fast", "PtfmRoll [deg]", "Fast-PtfmRoll")
-      call Scatter(M, Time, PtfmPitch(:),"BLUE", "Fast", "PtfmPitch [deg]", "Fast-PtfmPitch")
-      call Scatter(M, Time, PtfmYaw(:),  "BLUE", "Fast", "PtfmYaw [deg]", "Fast-PtfmYaw")
+      call Scatter(M, Time, PtfmSurge(:),"BLUE", "Fast", "PtfmSurge [m]", "Fast-1PtfmSurge")
+      call Scatter(M, Time, PtfmSway(:), "BLUE", "Fast", "PtfmSway [m]", "Fast-2PtfmSway")
+      call Scatter(M, Time, PtfmHeave(:),"BLUE", "Fast", "PtfmHeave [m]", "Fast-3PtfmHeave")
+      call Scatter(M, Time, PtfmRoll(:), "BLUE", "Fast", "PtfmRoll [deg]", "Fast-4PtfmRoll")
+      call Scatter(M, Time, PtfmPitch(:),"BLUE", "Fast", "PtfmPitch [deg]", "Fast-5PtfmPitch")
+      call Scatter(M, Time, PtfmYaw(:),  "BLUE", "Fast", "PtfmYaw [deg]", "Fast-6PtfmYaw")
       call Scatter(M, Time, TwrBsFxt(:), "BLUE", "Fast", "TowerBsFx [kN]", "Fast-TowerBsFx")
       call Scatter(M, Time, TwrBsFyt(:), "BLUE", "Fast", "TowerBsFy [kN]", "Fast-TowerBsFy")
       call Scatter(M, Time, TwrBsFzt(:), "BLUE", "Fast", "TowerBsFz [kN]", "Fast-TowerBsFz")
@@ -475,12 +475,12 @@ program PlotP3D
       end do
       close(102)
       
-      call Scatter2(M, Time, PtfmSurge(:,1), PtfmSurge(:,2), "TPNBin-Ref", "TPNBin-Test", "PtfmSurge [m]", "TPNBin-PtfmSurge")
-      call Scatter2(M, Time, PtfmSway(:,1), PtfmSway(:,2), "TPNBin-Ref", "TPNBin-Test", "PtfmSway [m]", "TPNBin-PtfmSway")
-      call Scatter2(M, Time, PtfmHeave(:,1), PtfmHeave(:,2), "TPNBin-Ref", "TPNBin-Test", "PtfmHeave [m]", "TPNBin-PtfmHeave")
-      call Scatter2(M, Time, PtfmRoll(:,1), PtfmRoll(:,2), "TPNBin-Ref", "TPNBin-Test", "PtfmRoll [deg]", "TPNBin-PtfmRoll")
-      call Scatter2(M, Time, PtfmPitch(:,1), PtfmPitch(:,2), "TPNBin-Ref", "TPNBin-Test", "PtfmPitch [deg]", "TPNBin-PtfmPitch")
-      call Scatter2(M, Time, PtfmYaw(:,1), PtfmYaw(:,2), "TPNBin-Ref", "TPNBin-Test", "PtfmYaw [deg]", "TPNBin-PtfmYaw")
+      call Scatter2(M, Time, PtfmSurge(:,1), PtfmSurge(:,2), "TPNBin-Ref.", "TPNBin-Test", "PtfmSurge [m]", "TPNBin-1PtfmSurge")
+      call Scatter2(M, Time, PtfmSway(:,1), PtfmSway(:,2),   "TPNBin-Ref.", "TPNBin-Test", "PtfmSway [m]", "TPNBin-2PtfmSway")
+      call Scatter2(M, Time, PtfmHeave(:,1), PtfmHeave(:,2), "TPNBin-Ref.", "TPNBin-Test", "PtfmHeave [m]", "TPNBin-3PtfmHeave")
+      call Scatter2(M, Time, PtfmRoll(:,1), PtfmRoll(:,2),   "TPNBin-Ref.", "TPNBin-Test", "PtfmRoll [deg]", "TPNBin-4PtfmRoll")
+      call Scatter2(M, Time, PtfmPitch(:,1), PtfmPitch(:,2), "TPNBin-Ref.", "TPNBin-Test", "PtfmPitch [deg]", "TPNBin-5PtfmPitch")
+      call Scatter2(M, Time, PtfmYaw(:,1), PtfmYaw(:,2),     "TPNBin-Ref.", "TPNBin-Test", "PtfmYaw [deg]", "TPNBin-6PtfmYaw")
    
    end subroutine ComparaTPNBins
    
