@@ -46,6 +46,7 @@ module PlotsLib
    
       ! Define saída em PNG, ou XWIN
       if (present(filename) .and. len_trim(filename) > 0) then
+         call window(0, 0, 1275, 900)
          call metafl('PNG')
          call filmod('DELETE')
          call system('if not exist plots mkdir plots')
@@ -135,6 +136,7 @@ module PlotsLib
    
       ! Define saída em PNG, ou XWIN
       if (present(filename) .and. len_trim(filename) > 0) then
+         call window(0, 0, 1275, 900)
          call metafl('PNG')
          call filmod('DELETE')
          call system('if not exist plots mkdir plots')
