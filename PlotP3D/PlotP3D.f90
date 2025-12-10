@@ -56,13 +56,13 @@ program PlotP3D
    
    ! Fixando P e escolhendo número de saídas
    if (P < 0) then
-      N = -P
+      N = -P + 8
       P = 1
-   end if
-   
-   if (P > (N-10)/2) then
-      write(*,*) "Intervalo inválido! Deve ser no máximo a metade de linhas do menor arquivo!"
-      call PrintHelp()
+   else
+      if (P > (N-10)/2) then
+         write(*,*) "Intervalo inválido! Deve ser no máximo a metade de linhas do menor arquivo!"
+         call PrintHelp()
+      end if
    end if
    
    if (Modo == 1) call ComparaDesacoplados()

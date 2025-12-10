@@ -69,15 +69,16 @@ module PlotsLib
          call name(trim(lblx), 'X')
       else
          call name("Time [s]", 'X')
-         call labdig(-1, 'X') ! sem casas decimais
+         call labdig(-2, 'X') ! casas decimais automáticas
       end if
       call labels('FEXP', 'Y') ! notação científica
       call graf(x_min, x_max, x_min, x_step, y_min, y_max, y_min, y_step)
+      call mapmod('STRAIGHT')
 
       ! Plotando pontos
       call color(trim(cor))
       call thkcrv(3)
-      call curve(X, Y, N)
+      call curvmp(X, Y, N)
 
       ! Título e legenda
       call color("WHITE")
@@ -160,20 +161,21 @@ module PlotsLib
          call name(trim(lblx), 'X')
       else
          call name("Time [s]", 'X')
-         call labdig(2, 'X') ! sem casas decimais -> -1
+         call labdig(-2, 'X') ! sem casas decimais -> -1
       end if
       call labels('FEXP', 'Y') ! notação científica
       call graf(x_min, x_max, x_min, x_step, y_min, y_max, y_min, y_step)
+      call mapmod('STRAIGHT')
 
       ! Primeira função
       call color("BLUE")
-      call thkcrv(4)
-      call curve(X, Y1, N)
+      call thkcrv(3)
+      call curvmp(X, Y1, N)
         
       ! Segunda função
       call color("RED")
-      call thkcrv(4)
-      call curve(X, Y2, N)
+      call thkcrv(3)
+      call curvmp(X, Y2, N)
         
       ! Título e legenda
       call color("WHITE")
