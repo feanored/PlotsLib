@@ -46,7 +46,7 @@
 			<Tool Name="VFCustomBuildTool"/>
 			<Tool Name="VFPreLinkEventTool"/>
 			<Tool Name="VFPreBuildEventTool"/>
-			<Tool Name="VFPostBuildEventTool" CommandLine="copy /Y &quot;$(TargetDir)\PlotP3D.exe&quot; &quot;E:\TPNBin&quot;"/>
+			<Tool Name="VFPostBuildEventTool" CommandLine="copy /Y &quot;$(TargetDir)\PlotP3D.exe&quot; &quot;$(RUNPATH)&quot;"/>
 			<Tool Name="VFManifestTool" SuppressStartupBanner="true"/>
 		</Configuration>
 	</Configurations>
